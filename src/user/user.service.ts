@@ -47,8 +47,7 @@ export class UserService {
         // Implementation for creating a new user
         const newUser: User = {
             id: this.users.length + 1,
-            name: dto.name ?? '',
-            email: dto.email ?? '', 
+            ...dto
         };
 
         this.users.push(newUser);

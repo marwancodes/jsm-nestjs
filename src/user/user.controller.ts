@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Param, Post, Body, Put, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Query, Param, Post, Body, Put, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { UserService } from './user.service.js';
+import { RoleGuard } from '../guard/role.guard.js';
 
 @Controller('user')
 export class UserController {
@@ -48,7 +49,9 @@ export class UserController {
         return this.userService.updateUser(Number(id), updateUserDto);
     }
 
+    // DELETE /user/:id -> 401 -> ROLE: ADMIN -> GO THROUGH
     @Delete(':id')
+    @UseGuards(RoleGuard)
     deleteUser(@Param('id') id: string): unknown {
         return this.userService.deleteUser(Number(id));
     }
